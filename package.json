@@ -1,0 +1,10 @@
+{
+  "name": "math-trivia-game",
+  "version": "0.0.1",
+  "description": "math trivia game using socket.io",
+  "dependencies": {
+    "express": "^4.7.4",
+    "jade": "^1.5.0",
+    "socket.io": "^1.0.6"
+  }
+}
