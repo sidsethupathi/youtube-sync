@@ -45,10 +45,13 @@
 
       // 4. The API will call this function when the video player is ready.
       function onPlayerReady(event) {
+
+      	event.target.playVideo();
         
         socket.on('start', function(data) {
     		var seconds = new Date().getTime() / 1000;
 			console.log("we received a start code at " + seconds);
+	        event.target.seekTo(0, true);
 	        event.target.playVideo();
 		});
       }
