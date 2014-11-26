@@ -17,7 +17,8 @@
       // 2. This code loads the IFrame Player API code asynchronously.
       var start_seconds = 0,
           tag = document.createElement('script'),
-          socket = io.connect();
+          socket = io.connect(),
+          disp_lat = true;
 
       tag.src = "https://www.youtube.com/iframe_api";
       var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -50,11 +51,13 @@
       	event.target.playVideo();
         
         socket.on('start', function(data) {
-    		var seconds = new Date().getTime() / 1000;
-			console.log("we received a start code at " + seconds);
-	        event.target.seekTo(0, true);
-	        event.target.playVideo();
-		});
+            disp_lat = false;
+        		var seconds = new Date().getTime() / 1000;
+    			console.log("we received a start code at " + seconds);
+    	        event.target.seekTo(0, true);
+    	        event.target.playVideo();
+
+    		});
       }
 
       // 5. The API calls this function when the player's state changes.
@@ -80,8 +83,8 @@
         var end_seconds = new Date().getTime() / 1000;
         total = end_seconds - start_seconds;
         latency = total / 2;
-        
-        console.log("latency: " + latency);
+        if(disp_lat)
+          console.log("latency: " + latency);
       });
 
     </script>
