@@ -32,6 +32,12 @@ io.on('connection', function(socket) {
 		});
 	});
 
+	socket.on('change song', function(data) {
+		io.emit('change song', {
+			url: data.url
+		});
+	});
+
 	socket.on('ping', function() {
 		socket.emit('pong');
 	});
@@ -48,51 +54,10 @@ var sendUserInfo = function(recip) {
 	});
 };
 
-var sendQuestion = function(recip) {
-	recip.emit('question', {
-		question: _question,
-		answer: _answer
-	});
-};
 
-var sendScores = function(recip) {
-	recip.emit('scores', {
-		scores: scores
-	});
-};
-
-var sendData = function(recip, event, data) {
-	recip.emit('time', {
-		key: data
-	});
-};
-
-var incrementScore = function(key) {
-	if(isNaN(scores[key])) {
-		scores[key] = 1;
-	} else {
-		scores[key]++;
-	}
-};
-
-
-/* Game Logic */
+/* Set up server */
 
 http.listen(port, function() {
 	console.log('listening on ' + port);
 });
-
-count = 120;
-setInterval(function() {
-	if(count < 0) {
-		scores = {};
-		sendScores(io);
-		console.log("clearing scores list");
-		count = 120;
-	} else {
-		sendData(io, "time", count);
-		count--;
-	}
-	
-}, 1000);
 

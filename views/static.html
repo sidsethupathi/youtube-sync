@@ -70,8 +70,15 @@
           done = true;
         }
       }
+
       function stopVideo() {
         player.stopVideo();
+      }
+
+      function changeSong(song) {
+        socket.emit('change song', {
+          url: song
+        });
       }
 
       setInterval(function() {
@@ -85,6 +92,11 @@
         latency = total / 2;
         if(disp_lat)
           console.log("latency: " + latency);
+      });
+
+      socket.on('change song', function(data) {
+        player.loadVideoById(data.url);
+        player.playVideo();
       });
 
     </script>
